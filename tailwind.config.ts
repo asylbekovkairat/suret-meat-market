@@ -106,7 +106,7 @@ export default {
 				'fade-in-up': 'fade-in-up 0.7s ease-out'
 			},
 			fontFamily: {
-				sans: ['Inter', 'sans-serif'],
+				sans: ['Gilroy', 'sans-serif'],
 				display: ['"Playfair Display"', 'serif']
 			}
 		}
