@@ -5,7 +5,7 @@ import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 const Hero: React.FC = () => {
   return (
-    <section id="hero" className="py-16 md:py-24 bg-white relative">
+    <section id="hero" className="py-24 md:py-32 bg-white relative">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
           {/* Левая часть с текстом */}
