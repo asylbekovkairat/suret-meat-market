@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 
 const Navbar: React.FC = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(true); // Default to true to show as if scrolled
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -11,7 +11,7 @@ const Navbar: React.FC = () => {
       if (window.scrollY > 50) {
         setIsScrolled(true);
       } else {
-        setIsScrolled(false);
+        setIsScrolled(true); // Keep it true even at the top
       }
     };
 
