@@ -1,6 +1,7 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
+import OrderModal from "@/components/OrderModal";
 
 interface Product {
   id: number;
@@ -12,6 +13,9 @@ interface Product {
 }
 
 const Products: React.FC = () => {
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const products: Product[] = [
     {
       id: 1,
@@ -47,6 +51,15 @@ const Products: React.FC = () => {
     }
   ];
 
+  const handleOrder = (product: Product) => {
+    setSelectedProduct(product);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <section id="products" className="py-16 md:py-24">
       <div className="container mx-auto px-4">
@@ -70,14 +83,30 @@ const Products: React.FC = () => {
                   <span className="mr-2">{product.icon}</span>
                   <span className="font-medium">{product.feature}</span>
                 </div>
-                <Button variant="outline" className="w-full border-suretRed text-suretRed hover:bg-suretRed hover:text-white">
-                  Подробнее
-                </Button>
+                <div className="flex gap-2">
+                  <Button variant="outline" className="flex-1 border-suretRed text-suretRed hover:bg-suretRed hover:text-white">
+                    Подробнее
+                  </Button>
+                  <Button 
+                    className="flex-1 bg-suretRed hover:bg-red-800 text-white"
+                    onClick={() => handleOrder(product)}
+                  >
+                    Заказать
+                  </Button>
+                </div>
               </div>
             </div>
           ))}
         </div>
       </div>
+      
+      {selectedProduct && (
+        <OrderModal 
+          isOpen={isModalOpen} 
+          onClose={handleCloseModal} 
+          product={selectedProduct}
+        />
+      )}
     </section>
   );
 };
