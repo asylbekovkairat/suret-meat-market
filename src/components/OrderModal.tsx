@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -9,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "@/hooks/use-toast";
-import { Utensils, Users, Grill, Coal } from "lucide-react";
+import { Utensils, Users, Drill, Flame } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { sendTelegramMessage } from "@/utils/telegram";
 
@@ -198,7 +197,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose, product }) => 
                       </FormControl>
                       <div className="space-y-1 leading-none">
                         <FormLabel className="flex items-center gap-2">
-                          <Grill className="h-4 w-4 text-suretRed" />
+                          <Drill className="h-4 w-4 text-suretRed" />
                           Мангал
                         </FormLabel>
                         <p className="text-xs text-muted-foreground">
@@ -222,7 +221,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose, product }) => 
                       </FormControl>
                       <div className="space-y-1 leading-none">
                         <FormLabel className="flex items-center gap-2">
-                          <Coal className="h-4 w-4 text-suretRed" />
+                          <Flame className="h-4 w-4 text-suretRed" />
                           Уголь
                         </FormLabel>
                         <p className="text-xs text-muted-foreground">
