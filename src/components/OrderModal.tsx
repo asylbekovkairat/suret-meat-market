@@ -9,7 +9,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "@/hooks/use-toast";
-import { Utensils, Users } from "lucide-react";
+import { Utensils, Users, Grill, Coal } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { sendTelegramMessage } from "@/utils/telegram";
 
 interface Product {
   id: number;
@@ -36,6 +38,13 @@ const formSchema = z.object({
   city: z.string().min(2, {
     message: "Укажите город доставки",
   }),
+  extras: z.object({
+    grill: z.boolean().default(false),
+    charcoal: z.boolean().default(false),
+  }).default({
+    grill: false,
+    charcoal: false,
+  }),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -53,6 +62,10 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose, product }) => 
       name: "",
       phone: "",
       city: "",
+      extras: {
+        grill: false,
+        charcoal: false,
+      },
     },
   });
 
@@ -73,6 +86,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose, product }) => 
 Телефон: ${values.phone}
 Кол-во: ${values.weight} кг (≈ ${skewers} шампуров, на ${people} чел.)
 Город: ${values.city}
+Дополнительные услуги: ${values.extras.grill ? '✅ Мангал' : '❌ Мангал'}, ${values.extras.charcoal ? '✅ Уголь' : '❌ Уголь'}
       `;
       
       // In a real application, you would send this to your Telegram webhook
@@ -168,6 +182,58 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose, product }) => 
                 </div>
               </div>
               
+              <div className="space-y-2 p-3 bg-gray-50 rounded-md">
+                <p className="text-sm font-medium mb-2">Дополнительные услуги:</p>
+                
+                <FormField
+                  control={form.control}
+                  name="extras.grill"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <div className="space-y-1 leading-none">
+                        <FormLabel className="flex items-center gap-2">
+                          <Grill className="h-4 w-4 text-suretRed" />
+                          Мангал
+                        </FormLabel>
+                        <p className="text-xs text-muted-foreground">
+                          Складной мангал для приготовления шашлыка
+                        </p>
+                      </div>
+                    </FormItem>
+                  )}
+                />
+                
+                <FormField
+                  control={form.control}
+                  name="extras.charcoal"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <div className="space-y-1 leading-none">
+                        <FormLabel className="flex items-center gap-2">
+                          <Coal className="h-4 w-4 text-suretRed" />
+                          Уголь
+                        </FormLabel>
+                        <p className="text-xs text-muted-foreground">
+                          Качественный уголь для быстрого розжига
+                        </p>
+                      </div>
+                    </FormItem>
+                  )}
+                />
+              </div>
+
               <FormField
                 control={form.control}
                 name="name"
