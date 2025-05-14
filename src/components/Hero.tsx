@@ -5,7 +5,7 @@ import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 const Hero: React.FC = () => {
   return (
-    <section id="hero" className="py-24 md:py-32 bg-white relative">
+    <section id="hero" className="py-24 md:py-32 bg-white relative mt-16">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
           {/* Левая часть с текстом */}
@@ -31,8 +31,8 @@ const Hero: React.FC = () => {
             <div className="rounded-2xl overflow-hidden shadow-xl">
               <AspectRatio ratio={4/3} className="bg-gray-100">
                 <img 
-                  src="/placeholder.svg" 
-                  alt="Аппетитный шашлык" 
+                  src="/lovable-uploads/9346f2f2-d7b5-4c34-9850-81935d442e74.png" 
+                  alt="Продукция SURET - маринованное мясо в корзинке с овощами" 
                   className="w-full h-full object-cover"
                   loading="eager"
                 />
