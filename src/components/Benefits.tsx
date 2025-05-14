@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { LeafyGreen, Package2, Timer, UsersRound } from "lucide-react";
+import { LeafyGreen, Package2, Timer, UsersRound, BadgeCheck, Star, Snowflake, Award } from "lucide-react";
 
 interface Benefit {
   title: string;
@@ -11,29 +11,34 @@ interface Benefit {
 const Benefits: React.FC = () => {
   const benefits: Benefit[] = [
     {
-      title: '100% натуральное мясо',
-      description: 'Работаем только с проверенными поставщиками и тщательно отбираем сырье',
-      icon: <LeafyGreen className="w-12 h-12 text-suretGreen" />
+      title: 'Специи из Италии',
+      description: 'Используем только лучшие специи, доставленные напрямую из Италии',
+      icon: <Star className="w-12 h-12 text-suretGreen" />
     },
     {
-      title: 'Без химии и Е-добавок',
-      description: 'В наших продуктах нет консервантов, красителей и усилителей вкуса',
-      icon: <LeafyGreen className="w-12 h-12 text-suretGreen" />
+      title: 'Высокое качество продукции',
+      description: 'Работаем только с проверенными поставщиками и тщательно отбираем сырье',
+      icon: <BadgeCheck className="w-12 h-12 text-suretGreen" />
+    },
+    {
+      title: 'Хранение до 90 суток',
+      description: 'Продукция сохраняет все свои качества при температуре -18°C до 90 суток',
+      icon: <Snowflake className="w-12 h-12 text-suretGreen" />
+    },
+    {
+      title: 'Халяльная продукция',
+      description: 'Вся наша продукция соответствует стандартам Халяль',
+      icon: <BadgeCheck className="w-12 h-12 text-suretGreen" />
+    },
+    {
+      title: 'Международные стандарты',
+      description: 'Производство и контроль качества по международным стандартам',
+      icon: <Award className="w-12 h-12 text-suretGreen" />
     },
     {
       title: 'Удобная и красивая упаковка',
       description: 'Современная вакуумная упаковка сохраняет свежесть и удобна в использовании',
       icon: <Package2 className="w-12 h-12 text-suretGreen" />
-    },
-    {
-      title: 'Экономия времени: готово к жарке',
-      description: 'Не нужно мариновать и подготавливать — просто достаньте из упаковки и готовьте',
-      icon: <Timer className="w-12 h-12 text-suretGreen" />
-    },
-    {
-      title: 'Для семьи, друзей и кафе',
-      description: 'Предлагаем решения как для домашнего использования, так и для бизнеса',
-      icon: <UsersRound className="w-12 h-12 text-suretGreen" />
     }
   ];
 
