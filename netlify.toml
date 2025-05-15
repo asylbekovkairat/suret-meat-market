@@ -8,7 +8,7 @@
 # Proxy API requests to your backend server
 [[redirects]]
   from = "/api/*"
-  to = "https://uret-meat-market-api-production.up.railway.app/api/:splat"
+  to = "https://suret-meat-market-api-production.up.railway.app/api/:splat"
   status = 200
   force = true
   headers = {Access-Control-Allow-Origin = "*"}
