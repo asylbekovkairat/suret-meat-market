@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 
 const Navbar: React.FC = () => {
-  const [isScrolled, setIsScrolled] = useState(true); // Default to true to show as if scrolled
+  const [isScrolled, setIsScrolled] = useState(false); // Default to false, will be set based on scroll position
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -11,29 +11,32 @@ const Navbar: React.FC = () => {
       if (window.scrollY > 50) {
         setIsScrolled(true);
       } else {
-        setIsScrolled(true); // Keep it true even at the top
+        setIsScrolled(false); // Change to false when at the top
       }
     };
 
+    // Initial check
+    handleScroll();
+    
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
-    <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md py-2' : 'bg-transparent py-4'}`}>
+    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md py-2' : 'bg-white shadow-md py-2'}`}>
       <div className="container mx-auto px-4 flex justify-between items-center">
         <a href="#" className="flex items-center">
-          <span className={`font-display font-bold text-2xl ${isScrolled ? 'text-suretRed' : 'text-white'}`}>SURET</span>
+          <span className="font-display font-bold text-2xl text-suretRed">SURET</span>
         </a>
         
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center space-x-6">
-          <a href="#about" className={`${isScrolled ? 'text-gray-800' : 'text-white'} hover:text-suretRed transition-colors`}>О нас</a>
-          <a href="#products" className={`${isScrolled ? 'text-gray-800' : 'text-white'} hover:text-suretRed transition-colors`}>Продукция</a>
-          <a href="#benefits" className={`${isScrolled ? 'text-gray-800' : 'text-white'} hover:text-suretRed transition-colors`}>Преимущества</a>
-          <a href="#process" className={`${isScrolled ? 'text-gray-800' : 'text-white'} hover:text-suretRed transition-colors`}>Как мы готовим</a>
-          <a href="#testimonials" className={`${isScrolled ? 'text-gray-800' : 'text-white'} hover:text-suretRed transition-colors`}>Отзывы</a>
-          <a href="#locations" className={`${isScrolled ? 'text-gray-800' : 'text-white'} hover:text-suretRed transition-colors`}>Где купить</a>
+          <a href="#about" className="text-gray-800 hover:text-suretRed transition-colors">О нас</a>
+          <a href="#products" className="text-gray-800 hover:text-suretRed transition-colors">Продукция</a>
+          <a href="#benefits" className="text-gray-800 hover:text-suretRed transition-colors">Преимущества</a>
+          <a href="#process" className="text-gray-800 hover:text-suretRed transition-colors">Как мы готовим</a>
+          <a href="#testimonials" className="text-gray-800 hover:text-suretRed transition-colors">Отзывы</a>
+          <a href="#locations" className="text-gray-800 hover:text-suretRed transition-colors">Где купить</a>
           <a href="#contact">
             <Button variant="default" className="bg-suretRed hover:bg-red-700">
               Контакты
@@ -48,7 +51,7 @@ const Navbar: React.FC = () => {
         >
           <svg 
             xmlns="http://www.w3.org/2000/svg" 
-            className={`h-6 w-6 ${isScrolled ? 'text-gray-800' : 'text-white'}`}
+            className="h-6 w-6 text-gray-800"
             fill="none" 
             viewBox="0 0 24 24" 
             stroke="currentColor"

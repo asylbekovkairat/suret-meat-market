@@ -67,7 +67,7 @@ const Products: React.FC = () => {
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-12">
           {products.map((product) => (
-            <div key={product.id} className="product-card">
+            <div key={product.id} className="product-card flex flex-col h-full">
               <div className="relative overflow-hidden">
                 <img 
                   src={product.image}
@@ -76,14 +76,14 @@ const Products: React.FC = () => {
                   loading="lazy"
                 />
               </div>
-              <div className="p-6">
+              <div className="p-6 flex flex-col flex-grow">
                 <h3 className="text-xl font-semibold mb-2 text-gray-800">{product.name}</h3>
                 <p className="text-gray-600 mb-4">{product.description}</p>
                 <div className="flex items-center text-suretRed mb-4">
                   <span className="mr-2">{product.icon}</span>
                   <span className="font-medium">{product.feature}</span>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-2 mt-auto pt-4">
                   <Button variant="outline" className="flex-1 border-suretRed text-suretRed hover:bg-suretRed hover:text-white">
                     Подробнее
                   </Button>

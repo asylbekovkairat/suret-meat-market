@@ -1,10 +1,15 @@
-
-import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { toast } from "@/hooks/use-toast";
+import axios from "axios";
+import React, { useState } from "react";
 import OrderForm from "./order/OrderForm";
-import OrderSuccess from "./order/OrderSuccess";
 import { FormValues, Product } from "./order/OrderFormSchema";
+import OrderSuccess from "./order/OrderSuccess";
 
 interface OrderModalProps {
   isOpen: boolean;
@@ -12,52 +17,51 @@ interface OrderModalProps {
   product: Product;
 }
 
-const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose, product }) => {
+const OrderModal: React.FC<OrderModalProps> = ({
+  isOpen,
+  onClose,
+  product,
+}) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formSuccess, setFormSuccess] = useState(false);
-  
+
   const handleSubmit = async (values: FormValues) => {
     setIsSubmitting(true);
-    
+
     try {
-      // Convert weight from string to number for calculations
-      const weightNum = parseFloat(values.weight);
-      const skewers = weightNum * 5;
-      const people = weightNum * 4;
-      
-      // Format message for Telegram
-      const message = `
-🆕 Новый заказ:
-Продукт: ${product.name}
-Имя: ${values.name}
-Телефон: ${values.phone}
-Кол-во: ${values.weight} кг (≈ ${skewers} шампуров, на ${people} чел.)
-Город: ${values.city}
-Дополнительные услуги: ${values.extras.grill ? '✅ Мангал' : '❌ Мангал'}, ${values.extras.charcoal ? '✅ Уголь' : '❌ Уголь'}
-      `;
-      
-      // In a real application, you would send this to your Telegram webhook
-      console.log("Sending to Telegram:", message);
-      
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Show success message
-      setFormSuccess(true);
-      toast({
-        title: "✅ Спасибо!",
-        description: "Мы скоро свяжемся с вами.",
+      // Send order data to our backend API
+      const apiUrl = import.meta.env.VITE_API_URL || "/api";
+      // Always use /api/submit-order as the endpoint
+      console.log('Sending order to:', `${apiUrl}/api/submit-order`);
+      const response = await axios.post(`${apiUrl}/api/submit-order`, {
+        product,
+        values,
       });
-      
-      // Close modal after a delay
-      setTimeout(() => {
-        onClose();
-        setFormSuccess(false);
-      }, 2000);
+
+      if (response.data.success) {
+        // Show success message
+        setFormSuccess(true);
+        toast({
+          title: "✅ Спасибо!",
+          description: "Мы скоро свяжемся с вами.",
+        });
+
+        // Close modal after a delay
+        setTimeout(() => {
+          onClose();
+          setFormSuccess(false);
+        }, 2000);
+      } else {
+        throw new Error(
+          response.data.message || "Произошла ошибка при отправке заказа"
+        );
+      }
     } catch (error) {
+      console.error("Order submission error:", error);
       toast({
         title: "Ошибка",
-        description: "Не удалось отправить заказ. Пожалуйста, попробуйте еще раз.",
+        description:
+          "Не удалось отправить заказ. Пожалуйста, попробуйте еще раз.",
         variant: "destructive",
       });
     } finally {
@@ -74,11 +78,11 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose, product }) => 
         <DialogDescription>
           Заполните форму, и мы свяжемся с вами для уточнения деталей заказа.
         </DialogDescription>
-        
+
         {formSuccess ? (
           <OrderSuccess />
         ) : (
-          <OrderForm 
+          <OrderForm
             product={product}
             onSubmit={handleSubmit}
             isSubmitting={isSubmitting}
