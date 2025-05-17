@@ -1,10 +1,16 @@
-
-import React, { useState } from 'react';
-import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { MapPin, Phone, User } from "lucide-react";
+import React, { useState } from "react";
 import { UseFormReturn } from "react-hook-form";
+import InputMask from "react-input-mask";
 import { FormValues } from "./OrderFormSchema";
-import { MapPin } from "lucide-react";
 
 interface ContactFieldsProps {
   form: UseFormReturn<FormValues>;
@@ -20,71 +26,68 @@ const ContactFields: React.FC<ContactFieldsProps> = ({ form }) => {
           <FormItem>
             <FormLabel>Имя</FormLabel>
             <FormControl>
-              <Input placeholder="Ваше имя" {...field} />
+              <div className="relative">
+                <User className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
+                <Input
+                  placeholder="Ваше имя"
+                  className="pl-8"
+                  {...field}
+                  onChange={(e) => {
+                    // Capitalize first letter of each word
+                    const value = e.target.value.replace(/\b\w/g, (c) =>
+                      c.toUpperCase()
+                    );
+                    field.onChange(value);
+                  }}
+                />
+              </div>
             </FormControl>
             <FormMessage />
           </FormItem>
         )}
       />
-      
+
       <FormField
         control={form.control}
         name="phone"
         render={({ field }) => {
-          const formatPhoneNumber = (value: string) => {
-            // Remove all non-digits
-            const digits = value.replace(/\D/g, '');
-            
-            // Format for display
-            if (digits.length === 0) return '';
-            
-            let formatted = '+996';
-            
-            if (digits.length > 0) {
-              formatted += ' ' + digits.substring(0, Math.min(digits.length, 3));
-            }
-            
-            if (digits.length > 3) {
-              formatted += ' ' + digits.substring(3, Math.min(digits.length, 6));
-            }
-            
-            if (digits.length > 6) {
-              formatted += '-' + digits.substring(6, Math.min(digits.length, 8));
-            }
-            
-            if (digits.length > 8) {
-              formatted += '-' + digits.substring(8, Math.min(digits.length, 10));
-            }
-            
-            return formatted;
-          };
-          
-          const [displayValue, setDisplayValue] = useState(formatPhoneNumber(field.value));
-          
           return (
             <FormItem>
               <FormLabel>Номер телефона</FormLabel>
               <FormControl>
-                <Input 
-                  placeholder="+996 ___ ___-__-__" 
-                  type="tel"
-                  value={displayValue}
-                  onChange={(e) => {
-                    // Extract only digits for form value
-                    const rawValue = e.target.value.replace(/\D/g, '');
-                    // Store raw digits in form
-                    field.onChange(rawValue);
-                    // Update display value with formatting
-                    setDisplayValue(formatPhoneNumber(rawValue));
-                  }}
-                />
+                <div className="relative">
+                  <Phone className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
+                  <InputMask
+                    mask="0 999 999 999"
+                    value={field.value}
+                    onChange={(e) => {
+                      // Extract only digits for form value
+                      const rawValue = e.target.value.replace(/\D/g, "");
+                      field.onChange(rawValue);
+                    }}
+                    alwaysShowMask={true}
+                    maskChar="_"
+                  >
+                    {(inputProps: any) => (
+                      <Input
+                        {...inputProps}
+                        type="tel"
+                        placeholder="Например: 0 999 999 999"
+                        className="pl-8"
+                      />
+                    )}
+                  </InputMask>
+                </div>
               </FormControl>
+              <p className="text-xs text-muted-foreground mt-1">
+                Формат: 0 XXX XXX XX XX
+              </p>
               <FormMessage />
             </FormItem>
           );
         }}
       />
-      
+
       <FormField
         control={form.control}
         name="city"
@@ -94,18 +97,29 @@ const ContactFields: React.FC<ContactFieldsProps> = ({ form }) => {
             <FormControl>
               <div className="relative">
                 <MapPin className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
-                <Input 
-                  placeholder="Ваш город" 
-                  className="pl-8" 
-                  {...field} 
+                <InputMask
+                  mask="aaaaaaaaaaaaaaaaaaaaa"
+                  maskChar=""
+                  formatChars={{
+                    a: "[А-Яа-яA-Za-z- ]",
+                  }}
+                  value={field.value}
                   onChange={(e) => {
                     // Allow only letters, spaces, and hyphens
                     let value = e.target.value;
                     // Convert first letter of each word to uppercase
-                    value = value.replace(/\b\w/g, c => c.toUpperCase());
+                    value = value.replace(/\b\w/g, (c) => c.toUpperCase());
                     field.onChange(value);
                   }}
-                />
+                >
+                  {(inputProps: any) => (
+                    <Input
+                      {...inputProps}
+                      placeholder="Ваш город"
+                      className="pl-8"
+                    />
+                  )}
+                </InputMask>
               </div>
             </FormControl>
             <p className="text-xs text-muted-foreground mt-1">
