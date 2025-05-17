@@ -51,7 +51,7 @@ const ProductAmountSelector: React.FC<ProductAmountSelectorProps> = ({
   }
 
   const handleIncrement = () => {
-    const newValue = numericValue + (isSteak ? 1 : 0.5);
+    const newValue = numericValue + 1;
 
     if (newValue <= options[options.length - 1]) {
       form.setValue(fieldName, newValue.toString());
@@ -59,15 +59,14 @@ const ProductAmountSelector: React.FC<ProductAmountSelectorProps> = ({
   };
 
   const handleDecrement = () => {
-    const newValue = numericValue - (isSteak ? 1 : 0.5);
-
+    const newValue = numericValue - 1;
     if (newValue >= options[0]) {
       form.setValue(fieldName, newValue.toString());
     }
   };
 
   return (
-    <div className="flex justify-between items-end gap-2">
+    <div>
       <FormField
         control={form.control}
         name={fieldName}

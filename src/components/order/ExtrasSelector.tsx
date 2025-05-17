@@ -1,8 +1,12 @@
-
-import React from 'react';
-import { FormField, FormItem, FormLabel, FormControl } from "@/components/ui/form";
 import { Checkbox } from "@/components/ui/checkbox";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form";
 import { Drill, Flame } from "lucide-react";
+import React from "react";
 import { UseFormReturn } from "react-hook-form";
 import { FormValues } from "./OrderFormSchema";
 
@@ -14,7 +18,6 @@ const ExtrasSelector: React.FC<ExtrasSelectorProps> = ({ form }) => {
   return (
     <div className="space-y-2 p-3 bg-gray-50 rounded-md">
       <p className="text-sm font-medium mb-2">Дополнительные услуги:</p>
-      
       <FormField
         control={form.control}
         name="extras.grill"
@@ -38,7 +41,7 @@ const ExtrasSelector: React.FC<ExtrasSelectorProps> = ({ form }) => {
           </FormItem>
         )}
       />
-      
+
       <FormField
         control={form.control}
         name="extras.charcoal"

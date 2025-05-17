@@ -33,26 +33,26 @@ const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
 }) => {
   // Desktop carousel setup with autoplay
   const [desktopEmblaRef, desktopEmblaApi] = useEmblaCarousel({ loop: true });
-  
+
   // Mobile carousel setup with autoplay
   const [mobileEmblaRef, mobileEmblaApi] = useEmblaCarousel({ loop: true });
-  
+
   // Track current slide indices
   const [desktopCurrentSlide, setDesktopCurrentSlide] = useState(0);
   const [mobileCurrentSlide, setMobileCurrentSlide] = useState(0);
-  
+
   // Set up desktop slide change handler
   React.useEffect(() => {
     if (!desktopEmblaApi) return;
-    
+
     // Update current slide index when slide changes
     const onSelect = () => {
       setDesktopCurrentSlide(desktopEmblaApi.selectedScrollSnap());
     };
-    
+
     // Subscribe to select event
-    desktopEmblaApi.on('select', onSelect);
-    
+    desktopEmblaApi.on("select", onSelect);
+
     // Auto-advance slides
     const autoplay = setInterval(() => {
       if (desktopEmblaApi.canScrollNext()) {
@@ -61,29 +61,29 @@ const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
         desktopEmblaApi.scrollTo(0);
       }
     }, 4000);
-    
+
     // Initial call to set correct initial state
     onSelect();
-    
+
     // Cleanup
     return () => {
-      desktopEmblaApi.off('select', onSelect);
+      desktopEmblaApi.off("select", onSelect);
       clearInterval(autoplay);
     };
   }, [desktopEmblaApi]);
-  
+
   // Set up mobile slide change handler
   React.useEffect(() => {
     if (!mobileEmblaApi) return;
-    
+
     // Update current slide index when slide changes
     const onSelect = () => {
       setMobileCurrentSlide(mobileEmblaApi.selectedScrollSnap());
     };
-    
+
     // Subscribe to select event
-    mobileEmblaApi.on('select', onSelect);
-    
+    mobileEmblaApi.on("select", onSelect);
+
     // Auto-advance slides
     const autoplay = setInterval(() => {
       if (mobileEmblaApi.canScrollNext()) {
@@ -92,17 +92,17 @@ const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
         mobileEmblaApi.scrollTo(0);
       }
     }, 4000);
-    
+
     // Initial call to set correct initial state
     onSelect();
-    
+
     // Cleanup
     return () => {
-      mobileEmblaApi.off('select', onSelect);
+      mobileEmblaApi.off("select", onSelect);
       clearInterval(autoplay);
     };
   }, [mobileEmblaApi]);
-  
+
   // Additional product details (this would typically come from your backend)
   const productDetails = {
     composition: "Мясо курицы, специи, соль, перец",
@@ -120,11 +120,11 @@ const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
 
   // Mock images for the carousel (in a real app, these would come from your backend)
   const images = [
-    product.image, 
-    "/placeholder.svg", 
+    product.image,
     "/placeholder.svg",
-    "/placeholder.svg", 
-    "/placeholder.svg"
+    "/placeholder.svg",
+    "/placeholder.svg",
+    "/placeholder.svg",
   ];
 
   return (
@@ -157,19 +157,23 @@ const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
                   ))}
                 </div>
               </div>
-              
+
               {/* Carousel navigation dots */}
               <div className="flex justify-center mt-2 space-x-2">
                 {images.map((_, index) => (
                   <button
                     key={`dot-${index}`}
-                    className={`w-2 h-2 rounded-full ${desktopCurrentSlide === index ? 'bg-suretRed' : 'bg-gray-300'}`}
+                    className={`w-2 h-2 rounded-full ${
+                      desktopCurrentSlide === index
+                        ? "bg-suretRed"
+                        : "bg-gray-300"
+                    }`}
                     aria-label={`Go to slide ${index + 1}`}
                   />
                 ))}
               </div>
             </div>
-            
+
             <div className="flex items-center text-suretRed mt-2">
               <span className="mr-2">{product.icon}</span>
               <span className="font-medium text-sm">{product.feature}</span>
@@ -181,7 +185,10 @@ const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
             <div className="space-y-2">
               {/* Mobile carousel */}
               <div className="md:hidden mb-3">
-                <div className="overflow-hidden rounded-md" ref={mobileEmblaRef}>
+                <div
+                  className="overflow-hidden rounded-md"
+                  ref={mobileEmblaRef}
+                >
                   <div className="flex">
                     {images.map((src, index) => (
                       <div className="flex-[0_0_100%]" key={`mobile-${index}`}>
@@ -195,13 +202,17 @@ const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
                     ))}
                   </div>
                 </div>
-                
+
                 {/* Mobile carousel navigation dots */}
                 <div className="flex justify-center mt-2 space-x-2">
                   {images.map((_, index) => (
                     <button
                       key={`mobile-dot-${index}`}
-                      className={`w-2 h-2 rounded-full ${mobileCurrentSlide === index ? 'bg-suretRed' : 'bg-gray-300'}`}
+                      className={`w-2 h-2 rounded-full ${
+                        mobileCurrentSlide === index
+                          ? "bg-suretRed"
+                          : "bg-gray-300"
+                      }`}
                       aria-label={`Go to slide ${index + 1}`}
                     />
                   ))}

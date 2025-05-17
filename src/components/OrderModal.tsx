@@ -71,7 +71,7 @@ const OrderModal: React.FC<OrderModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-[1000px] w-[95vw] md:w-auto p-4 md:p-6">
         <DialogTitle className="text-xl font-bold text-suretRed">
           Заказать: {product.name}
         </DialogTitle>
