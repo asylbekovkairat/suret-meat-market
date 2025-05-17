@@ -1,3 +1,4 @@
+
 import {
   Dialog,
   DialogContent,
@@ -5,10 +6,17 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import Autoplay from "embla-carousel-autoplay";
-import useEmblaCarousel from "embla-carousel-react";
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "./ui/button";
+import { useIsMobile } from "@/hooks/use-mobile";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { cn } from "@/lib/utils";
 
 interface Product {
   id: number;
@@ -129,22 +137,28 @@ const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[90%] md:max-w-[600px] p-4 md:p-6 max-h-[90vh] overflow-y-auto">
-        <DialogHeader className="mb-2">
-          <DialogTitle className="text-xl font-bold text-suretRed">
-            {product.name}
-          </DialogTitle>
-          <DialogDescription className="text-sm">
-            {product.description}
-          </DialogDescription>
-        </DialogHeader>
+      <DialogContent className={cn(
+        "sm:max-w-[90%] md:max-w-[600px] p-0 overflow-hidden",
+        "max-h-[90vh] md:max-h-[80vh]"
+      )}>
+        <div className="p-4 md:p-6 overflow-y-auto">
+          <DialogHeader className="mb-4">
+            <DialogTitle className="text-xl font-bold text-suretRed">
+              {product.name}
+            </DialogTitle>
+            <DialogDescription className="text-sm">
+              {product.description}
+            </DialogDescription>
+          </DialogHeader>
 
-        <div className="flex flex-col md:flex-row gap-4">
-          {/* Image carousel - hidden on mobile */}
-          <div className="hidden md:block w-full md:w-1/2">
-            <div className="relative">
-              <div className="overflow-hidden rounded-md" ref={desktopEmblaRef}>
-                <div className="flex">
+          <div className="flex flex-col md:flex-row gap-6">
+            {/* Image carousel - optimized for both mobile and desktop */}
+            <div className={cn(
+              "w-full", 
+              isMobile ? "mb-4" : "md:w-1/2"
+            )}>
+              <Carousel className="w-full">
+                <CarouselContent>
                   {images.map((src, index) => (
                     <div className="flex-[0_0_100%]" key={index}>
                       <img
@@ -286,18 +300,31 @@ const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
           </div>
         </div>
 
-        <div className="mt-4 flex justify-end">
-          <Button
-            variant="outline"
-            onClick={onClose}
-            className="border-suretRed text-suretRed hover:bg-suretRed hover:text-white"
-          >
-            Закрыть
-          </Button>
+          <div className="mt-6 flex justify-end">
+            <Button
+              variant="outline"
+              onClick={onClose}
+              className="border-suretRed text-suretRed hover:bg-suretRed hover:text-white"
+            >
+              Закрыть
+            </Button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
   );
 };
+
+// Small helper component for consistent detail rows
+const DetailRow = ({ label, value }: { label: string; value: string }) => (
+  <div className="flex flex-row">
+    <h4 className="font-semibold text-gray-800 text-sm w-1/2">
+      {label}
+    </h4>
+    <p className="text-gray-600 text-sm">
+      {value}
+    </p>
+  </div>
+);
 
 export default ProductDetailsModal;
