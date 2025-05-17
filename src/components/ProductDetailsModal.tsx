@@ -24,12 +24,14 @@ interface ProductDetailsModalProps {
   isOpen: boolean;
   onClose: () => void;
   product: Product;
+  onOrder?: (product: Product) => void;
 }
 
 const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
   isOpen,
   onClose,
   product,
+  onOrder,
 }) => {
   // Desktop carousel setup with autoplay
   const [desktopEmblaRef, desktopEmblaApi] = useEmblaCarousel({ loop: true });
@@ -129,7 +131,7 @@ const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[90%] md:max-w-[600px] p-4 md:p-6 max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[95%] md:max-w-[1200px] lg:max-w-[1400px] p-4 md:p-6 max-h-[90vh] overflow-y-auto">
         <DialogHeader className="mb-2">
           <DialogTitle className="text-xl font-bold text-suretRed">
             {product.name}
@@ -224,48 +226,48 @@ const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
                 <span className="font-medium text-sm">{product.feature}</span>
               </div>
 
-              <div className="grid grid-cols-1 gap-1">
-                <div className="flex flex-row">
-                  <h4 className="font-semibold text-gray-800 text-sm w-1/2">
+              <div className="grid grid-cols-1 gap-2">
+                <div className="flex flex-col w-full">
+                  <h4 className="font-semibold text-gray-800 text-sm w-40 flex-shrink-0 whitespace-nowrap">
                     Состав:
                   </h4>
-                  <p className="text-gray-600 text-sm">
+                  <p className="text-gray-600 text-sm whitespace-nowrap overflow-hidden ">
                     {productDetails.composition}
                   </p>
                 </div>
 
-                <div className="flex flex-row">
-                  <h4 className="font-semibold text-gray-800 text-sm w-1/2">
+                <div className="flex flex-col w-full">
+                  <h4 className="font-semibold text-gray-800 text-sm w-40 flex-shrink-0 whitespace-nowrap">
                     Время приготовления:
                   </h4>
-                  <p className="text-gray-600 text-sm">
+                  <p className="text-gray-600 text-sm whitespace-nowrap overflow-hidden ">
                     {productDetails.cookingTime}
                   </p>
                 </div>
 
-                <div className="flex flex-row">
-                  <h4 className="font-semibold text-gray-800 text-sm w-1/2">
+                <div className="flex flex-col w-full">
+                  <h4 className="font-semibold text-gray-800 text-sm w-40 flex-shrink-0 whitespace-nowrap">
                     Условия хранения:
                   </h4>
-                  <p className="text-gray-600 text-sm">
+                  <p className="text-gray-600 text-sm whitespace-nowrap overflow-hidden ">
                     {productDetails.storageConditions}
                   </p>
                 </div>
 
-                <div className="flex flex-row">
-                  <h4 className="font-semibold text-gray-800 text-sm w-1/2">
+                <div className="flex flex-col w-full">
+                  <h4 className="font-semibold text-gray-800 text-sm w-40 flex-shrink-0 whitespace-nowrap">
                     Срок годности:
                   </h4>
-                  <p className="text-gray-600 text-sm">
+                  <p className="text-gray-600 text-sm whitespace-nowrap overflow-hidden ">
                     {productDetails.shelfLife}
                   </p>
                 </div>
 
-                <div className="flex flex-row">
-                  <h4 className="font-semibold text-gray-800 text-sm w-1/2">
+                <div className="flex flex-col w-full">
+                  <h4 className="font-semibold text-gray-800 text-sm w-40 flex-shrink-0 whitespace-nowrap">
                     Вес:
                   </h4>
-                  <p className="text-gray-600 text-sm">
+                  <p className="text-gray-600 text-sm whitespace-nowrap overflow-hidden text-ellipsis">
                     {productDetails.weight}
                   </p>
                 </div>
@@ -286,13 +288,15 @@ const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
           </div>
         </div>
 
-        <div className="mt-4 flex justify-end">
+        <div className="mt-4 flex justify-center gap-2">
           <Button
-            variant="outline"
-            onClick={onClose}
-            className="border-suretRed text-suretRed hover:bg-suretRed hover:text-white"
+            onClick={() => {
+              onClose();
+              onOrder && onOrder(product);
+            }}
+            className="w-1/3 bg-suretGreen hover:bg-green-800 text-white"
           >
-            Закрыть
+            Заказать
           </Button>
         </div>
       </DialogContent>
