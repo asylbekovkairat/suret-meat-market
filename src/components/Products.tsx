@@ -11,6 +11,7 @@ interface Product {
   feature: string;
   icon: string;
   type?: string;
+  images: string[];
 }
 
 const Products: React.FC = () => {
@@ -27,37 +28,45 @@ const Products: React.FC = () => {
       id: 1,
       name: "Куриный шашлык",
       description: "Лёгкий и сочный — то, что любят дети и взрослые",
-      image: "/placeholder.svg",
+      image: "/assets/chicken-kebab2.webp",
       feature: "Вакуумная упаковка для свежести",
       icon: "✅",
       type: "kebab",
+      images: ["/assets/chicken-kebab2.webp"],
     },
     {
       id: 2,
       name: "Куриные крылышки",
       description: "Маринованные крылышки — идеальная закуска для пикника",
-      image: "/placeholder.svg",
+      image: "/assets/chicken-wings2.webp",
       feature: "Готовы за 10 минут",
       icon: "⏱",
       type: "chicken",
+      images: [
+        "/assets/chicken-wings1.webp",
+        "/assets/chicken-wings2.webp",
+        "/assets/chicken-wings3.webp",
+      ],
     },
     {
       id: 3,
       name: "Стейки",
       description: "Мясо премиум-класса для жарки на гриле или в духовке",
-      image: "/placeholder.svg",
+      image: "/assets/steak2.webp",
       feature: "Минимум усилий — максимум вкуса",
       icon: "🔥",
       type: "steak",
+      images: ["/assets/steak1.webp", "/assets/steak2.webp"],
     },
     {
       id: 4,
       name: "Ребрышки",
       description: "Сочные ребрышки в фирменном маринаде — тают во рту",
-      image: "/placeholder.svg",
+      image: "/assets/ribs1.webp",
       feature: "Идеальны для барбекю",
       icon: "🍖",
       type: "ribs",
+      images: ["/assets/ribs1.webp"],
     },
   ];
 

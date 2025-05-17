@@ -5,7 +5,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
 import React, { useState } from "react";
 import { Button } from "./ui/button";
@@ -18,6 +17,7 @@ interface Product {
   feature: string;
   icon: string;
   type?: string;
+  images: string[];
 }
 
 interface ProductDetailsModalProps {
@@ -121,13 +121,7 @@ const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
   };
 
   // Mock images for the carousel (in a real app, these would come from your backend)
-  const images = [
-    product.image,
-    "/placeholder.svg",
-    "/placeholder.svg",
-    "/placeholder.svg",
-    "/placeholder.svg",
-  ];
+  const images = product.images;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
