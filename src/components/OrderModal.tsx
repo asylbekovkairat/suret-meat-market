@@ -32,7 +32,7 @@ const OrderModal: React.FC<OrderModalProps> = ({
       // Send order data to our backend API
       const apiUrl = import.meta.env.VITE_API_URL || "/api";
       // Always use /api/submit-order as the endpoint
-      console.log('Sending order to:', `${apiUrl}/api/submit-order`);
+      console.log("Sending order to:", `${apiUrl}/api/submit-order`);
       const response = await axios.post(`${apiUrl}/api/submit-order`, {
         product,
         values,
