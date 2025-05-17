@@ -131,7 +131,7 @@ const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[95%] md:max-w-[1200px] lg:max-w-[1400px] p-4 md:p-6 max-h-[90vh] overflow-y-auto">
+      <DialogContent className="p-4 md:p-6 overflow-y-auto sm:max-w-[95%] md:max-w-[1200px] lg:max-w-[1400px] sm:rounded-lg">
         <DialogHeader className="mb-2">
           <DialogTitle className="text-xl font-bold text-suretRed">
             {product.name}

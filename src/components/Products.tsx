@@ -17,16 +17,8 @@ const Products: React.FC = () => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDetailsProduct, setSelectedDetailsProduct] =
-    useState<Product | null>({
-      id: 1,
-      name: "Куриный шашлык",
-      description: "Лёгкий и сочный — то, что любят дети и взрослые",
-      image: "/placeholder.svg",
-      feature: "Вакуумная упаковка для свежести",
-      icon: "✅",
-      type: "kebab",
-    });
-  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(true);
+    useState<Product | null>(null);
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
 
   // We'll create individual carousel refs for each product in the mapping function
 
