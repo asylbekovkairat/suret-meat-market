@@ -1,107 +1,256 @@
-
-import React from 'react';
 import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "@/hooks/use-toast";
+import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
+import { Instagram, Mail, MessageSquare, Phone } from "lucide-react";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import InputMask from "react-input-mask";
+import { contactFormSchema, ContactFormValues } from "./ContactFormSchema";
 
 const Contact: React.FC = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formSuccess, setFormSuccess] = useState(false);
+
+  const form = useForm<ContactFormValues>({
+    resolver: zodResolver(contactFormSchema),
+    defaultValues: {
+      name: "",
+      phone: "",
+      message: "",
+    },
+  });
+
+  const handleSubmit = async (values: ContactFormValues) => {
+    setIsSubmitting(true);
+
+    try {
+      // Send contact data to our backend API
+      const apiUrl = import.meta.env.VITE_API_URL || "/api";
+      const response = await axios.post(`${apiUrl}/api/contact-us`, values);
+
+      if (response.data.success) {
+        // Show success message
+        setFormSuccess(true);
+        toast({
+          title: "✅ Спасибо за сообщение!",
+          description: "Мы скоро свяжемся с вами.",
+        });
+
+        // Reset form
+        form.reset();
+
+        // Reset success state after a delay
+        setTimeout(() => {
+          setFormSuccess(false);
+        }, 3000);
+      } else {
+        throw new Error(
+          response.data.message || "Произошла ошибка при отправке сообщения"
+        );
+      }
+    } catch (error) {
+      console.error("Contact form submission error:", error);
+      toast({
+        title: "Ошибка",
+        description:
+          "Не удалось отправить сообщение. Пожалуйста, попробуйте еще раз.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <section id="contact" className="bg-suretGray py-16 md:py-24">
       <div className="container mx-auto px-4">
-        <h2 className="section-title text-center">Остались вопросы? Напишите нам</h2>
-        
+        <h2 className="section-title text-center">
+          Остались вопросы? Напишите нам
+        </h2>
+
         <div className="max-w-3xl mx-auto mt-12 bg-white rounded-lg shadow-lg overflow-hidden">
           <div className="grid grid-cols-1 md:grid-cols-2">
             {/* Contact Info */}
             <div className="bg-suretRed text-white p-8">
-              <h3 className="text-2xl font-semibold mb-6">Контактная информация</h3>
-              
+              <h3 className="text-2xl font-semibold mb-6">
+                Контактная информация
+              </h3>
+
               <div className="space-y-6">
                 <div className="flex items-start">
                   <div className="mr-3 mt-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                    </svg>
+                    <Phone className="h-5 w-5" />
                   </div>
                   <div>
                     <p className="font-medium">Телефон / WhatsApp</p>
                     <p>+996 XXX XXX XXX</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start">
                   <div className="mr-3 mt-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                    </svg>
+                    <Mail className="h-5 w-5" />
                   </div>
                   <div>
                     <p className="font-medium">Email</p>
                     <p>info@suret.kg</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start">
                   <div className="mr-3 mt-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="font-medium">Telegram</p>
-                    <p>@suretmeat</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-start">
-                  <div className="mr-3 mt-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
+                    <Instagram className="h-5 w-5" />
                   </div>
                   <div>
                     <p className="font-medium">Instagram</p>
-                    <p>@suret.meat</p>
+                    <a
+                      className="underline"
+                      href="https://www.instagram.com/suret.kg/"
+                      target="_blank"
+                    >
+                      @suret.kg
+                    </a>
                   </div>
                 </div>
               </div>
             </div>
-            
+
             {/* Contact Form */}
             <div className="p-8">
-              <form className="space-y-4">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Имя</label>
-                  <input 
-                    type="text" 
-                    id="name" 
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-suretRed focus:border-transparent"
-                    placeholder="Ваше имя"
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(handleSubmit)}
+                  className="space-y-4"
+                >
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium text-gray-700">
+                          Имя
+                        </FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <Input
+                              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-suretRed focus:border-transparent"
+                              placeholder="Ваше имя"
+                              {...field}
+                              onChange={(e) => {
+                                // Auto-capitalize first letter of each word
+                                const value = e.target.value;
+                                const capitalized = value
+                                  .split(" ")
+                                  .map(
+                                    (word) =>
+                                      word.charAt(0).toUpperCase() +
+                                      word.slice(1)
+                                  )
+                                  .join(" ");
+                                field.onChange(capitalized);
+                              }}
+                            />
+                            <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                              <MessageSquare className="h-4 w-4" />
+                            </div>
+                          </div>
+                        </FormControl>
+                        <FormMessage className="text-xs text-red-500" />
+                      </FormItem>
+                    )}
                   />
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                  <input 
-                    type="email" 
-                    id="email" 
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-suretRed focus:border-transparent"
-                    placeholder="Ваш email"
+
+                  <FormField
+                    control={form.control}
+                    name="phone"
+                    render={({ field }) => {
+                      return (
+                        <FormItem>
+                          <FormLabel>Номер телефона</FormLabel>
+                          <FormControl>
+                            <div className="relative">
+                              <Phone className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
+                              <InputMask
+                                mask="0 999 999 999"
+                                value={field.value}
+                                onChange={(e) => {
+                                  // Extract only digits for form value
+                                  const rawValue = e.target.value.replace(
+                                    /\D/g,
+                                    ""
+                                  );
+                                  field.onChange(rawValue);
+                                }}
+                                alwaysShowMask={true}
+                                maskChar="_"
+                              >
+                                {(inputProps: any) => (
+                                  <Input
+                                    {...inputProps}
+                                    type="tel"
+                                    placeholder="Например: 0 999 999 999"
+                                    className="pl-8"
+                                  />
+                                )}
+                              </InputMask>
+                            </div>
+                          </FormControl>
+                          <p className="text-xs text-muted-foreground mt-1">
+                            Формат: 0 XXX XXX XX XX
+                          </p>
+                          <FormMessage />
+                        </FormItem>
+                      );
+                    }}
                   />
-                </div>
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Сообщение</label>
-                  <textarea 
-                    id="message" 
-                    rows={4}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-suretRed focus:border-transparent"
-                    placeholder="Ваше сообщение"
+
+                  <FormField
+                    control={form.control}
+                    name="message"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium text-gray-700">
+                          Сообщение
+                        </FormLabel>
+                        <FormControl>
+                          <Textarea
+                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-suretRed focus:border-transparent"
+                            placeholder="Ваше сообщение"
+                            rows={4}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage className="text-xs text-red-500" />
+                      </FormItem>
+                    )}
                   />
-                </div>
-                <div>
-                  <Button className="w-full bg-suretRed hover:bg-red-700">
-                    Отправить сообщение
+
+                  <Button
+                    type="submit"
+                    className="w-full bg-suretRed hover:bg-red-700"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? "Отправка..." : "Отправить сообщение"}
                   </Button>
-                </div>
-              </form>
+
+                  {formSuccess && (
+                    <div className="mt-4 p-3 bg-green-100 text-green-800 rounded-md text-center">
+                      Спасибо! Ваше сообщение успешно отправлено.
+                    </div>
+                  )}
+                </form>
+              </Form>
             </div>
           </div>
         </div>
