@@ -132,10 +132,10 @@ const Footer: React.FC = () => {
                   />
                 </svg>
                 <a
-                  href="mailto:info@suret.kg"
+                  href="mailto:suret.meat.kg@gmail.com"
                   className="text-gray-400 hover:text-white transition-colors"
                 >
-                  info@suret.kg
+                  suret.meat.kg@gmail.com
                 </a>
               </li>
               <li className="mt-4">
