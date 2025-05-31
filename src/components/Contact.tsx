@@ -94,7 +94,12 @@ const Contact: React.FC = () => {
                   </div>
                   <div>
                     <p className="font-medium">Телефон / WhatsApp</p>
-                    <p>+996 XXX XXX XXX</p>
+                    <a
+                      href="https://wa.me/996503113311"
+                      className="text-white hover:text-white underline transition-colors"
+                    >
+                      +996 503 11-33-11
+                    </a>
                   </div>
                 </div>
 
@@ -104,7 +109,12 @@ const Contact: React.FC = () => {
                   </div>
                   <div>
                     <p className="font-medium">Email</p>
-                    <p>info@suret.kg</p>
+                    <a
+                      href="mailto:info@suret.kg"
+                      className="text-white hover:text-white underline transition-colors"
+                    >
+                      info@suret.kg
+                    </a>
                   </div>
                 </div>
 
@@ -115,7 +125,7 @@ const Contact: React.FC = () => {
                   <div>
                     <p className="font-medium">Instagram</p>
                     <a
-                      className="underline"
+                      className="text-white hover:text-white underline transition-colors"
                       href="https://www.instagram.com/suret.kg/"
                       target="_blank"
                     >
